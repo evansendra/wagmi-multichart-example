@@ -37,8 +37,12 @@ const data2 = data.map((point, idx, arr) => {
 });
 
 const ChartData = function ChartData() {
-    const { currentX, isActive } = LineChart.useChart();
     const [textWidth, setTextWidth] = useState<number>(0);
+
+    // remove from here to see that errors disappear without hook usage
+
+    const { currentX, isActive } = LineChart.useChart();
+
 
     const [xDisplacement, setXDisplacement] = useState<number>(0);
 
@@ -47,6 +51,8 @@ const ChartData = function ChartData() {
       console.log(`x: `, currentX.value);
         runOnJS(setXDisplacement)(currentX.value);
     });
+
+    // end removal
 
     const onTextLayout = (e: any) => {
         setTextWidth(e.nativeEvent.layout.width);
@@ -69,7 +75,8 @@ const ChartData = function ChartData() {
                 <View style={{
                     position: 'absolute',
                     bottom: -25,
-                    left: xDisplacement,
+                    // left: xDisplacement,
+                    left: '50%',
                     transform: [{ translateX: -(textWidth / 2) }],
                 }} onLayout={onTextLayout}>
                     <LineChart.DatetimeText style={{ textAlign: 'center' }} />
