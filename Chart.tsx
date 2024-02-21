@@ -38,13 +38,11 @@ const data2 = data.map((point, idx, arr) => {
 
 const ChartData = function ChartData() {
     const [textWidth, setTextWidth] = useState<number>(0);
+    const [xDisplacement, setXDisplacement] = useState<number>(0);
 
     // remove from here to see that errors disappear without hook usage
 
     const { currentX, isActive } = LineChart.useChart();
-
-
-    const [xDisplacement, setXDisplacement] = useState<number>(0);
 
     useAnimatedReaction(() => currentX.value,
     () => {
@@ -75,8 +73,7 @@ const ChartData = function ChartData() {
                 <View style={{
                     position: 'absolute',
                     bottom: -25,
-                    // left: xDisplacement,
-                    left: '50%',
+                    left: xDisplacement,
                     transform: [{ translateX: -(textWidth / 2) }],
                 }} onLayout={onTextLayout}>
                     <LineChart.DatetimeText style={{ textAlign: 'center' }} />
