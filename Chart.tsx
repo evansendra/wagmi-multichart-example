@@ -36,11 +36,20 @@ const data2 = data.map((point, idx, arr) => {
     return arr[arr.length - 1 - idx];
 });
 
-const ChartData = function ChartData() {
+const LineChartOne = function LineChartOne() {
+    return (
+        <>
+            <LineChart.Path />
+            <LineChart.CursorCrosshair snapToPoint>
+                <LineChart.Tooltip />
+            </LineChart.CursorCrosshair>
+        </>
+    )
+}
+
+const LineChartTwo = function LineChartTwo() {
     const [textWidth, setTextWidth] = useState<number>(0);
     const [xDisplacement, setXDisplacement] = useState<number>(0);
-
-    // remove from here to see that errors disappear without hook usage
 
     const { currentX, isActive } = LineChart.useChart();
 
@@ -50,34 +59,37 @@ const ChartData = function ChartData() {
         runOnJS(setXDisplacement)(currentX.value);
     });
 
-    // end removal
-
     const onTextLayout = (e: any) => {
         setTextWidth(e.nativeEvent.layout.width);
     }
 
     return (
+        <>
+            <LineChart.Path color="green" />
+            <LineChart.CursorCrosshair snapToPoint>
+                <LineChart.Tooltip position="bottom" />
+                <LineChart.CursorLine />
+            </LineChart.CursorCrosshair>
+            <View style={{
+                position: 'absolute',
+                bottom: -25,
+                left: xDisplacement,
+                transform: [{ translateX: -(textWidth / 2) }],
+            }} onLayout={onTextLayout}>
+                <LineChart.DatetimeText style={{ textAlign: 'center' }} />
+            </View>
+        </>
+    )
+}
+
+const ChartData = function ChartData() {
+        return (
         <LineChart.Group>
             <LineChart id="one" shape={curveLinear}>
-                <LineChart.Path />
-                <LineChart.CursorCrosshair snapToPoint>
-                    <LineChart.Tooltip />
-                </LineChart.CursorCrosshair>
+                <LineChartOne />
             </LineChart>
             <LineChart id="two" shape={curveLinear}>
-                <LineChart.Path color="green" />
-                <LineChart.CursorCrosshair snapToPoint>
-                    <LineChart.Tooltip position="bottom" />
-                    <LineChart.CursorLine />
-                </LineChart.CursorCrosshair>
-                <View style={{
-                    position: 'absolute',
-                    bottom: -25,
-                    left: xDisplacement,
-                    transform: [{ translateX: -(textWidth / 2) }],
-                }} onLayout={onTextLayout}>
-                    <LineChart.DatetimeText style={{ textAlign: 'center' }} />
-                </View>
+                <LineChartTwo />
             </LineChart>
         </LineChart.Group>
     )
