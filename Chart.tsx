@@ -1,9 +1,9 @@
 import {LineChart, useLineChart} from 'react-native-wagmi-charts';
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {curveLinear} from "d3-shape";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {runOnJS, useAnimatedReaction} from "react-native-reanimated";
-import {View} from "react-native";
+import {Dimensions, View} from "react-native";
 
 const data = [
     {
@@ -47,6 +47,8 @@ const LineChartOne = function LineChartOne() {
     )
 }
 
+const screenWidth = Dimensions.get('window').width;
+
 const LineChartTwo = function LineChartTwo() {
     const [textWidth, setTextWidth] = useState<number>(0);
     const [xDisplacement, setXDisplacement] = useState<number>(0);
@@ -63,6 +65,19 @@ const LineChartTwo = function LineChartTwo() {
         setTextWidth(e.nativeEvent.layout.width);
     }
 
+    const safeXDisplacement= useMemo(() => {
+        const halfTextWidth = textWidth / 2;
+        if (xDisplacement < halfTextWidth) {
+            return halfTextWidth;
+        }
+
+        if (xDisplacement > screenWidth - halfTextWidth) {
+            return screenWidth - halfTextWidth;
+        }
+
+        return xDisplacement;
+    }, [xDisplacement, textWidth]);
+
     return (
         <>
             <LineChart.Path color="green" />
@@ -73,7 +88,7 @@ const LineChartTwo = function LineChartTwo() {
             <View style={{
                 position: 'absolute',
                 bottom: -25,
-                left: xDisplacement,
+                left: safeXDisplacement,
                 transform: [{ translateX: -(textWidth / 2) }],
             }} onLayout={onTextLayout}>
                 <LineChart.DatetimeText style={{ textAlign: 'center' }} />
