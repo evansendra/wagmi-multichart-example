@@ -5,32 +5,6 @@ import {useMemo, useState} from "react";
 import {runOnJS, useAnimatedReaction} from "react-native-reanimated";
 import {Dimensions, View} from "react-native";
 
-// const data = [
-//     {
-//         timestamp: 1625945400000,
-//         value: 33575.25,
-//     },
-//     {
-//         timestamp: 1625945850000,
-//         value: 33565.25,
-//     },
-//     {
-//         timestamp: 1625946300000,
-//         value: 33545.25,
-//     },
-//     {
-//         timestamp: 1625946750000,
-//         value: 33535.25,
-//     },
-//     {
-//         timestamp: 1625947200000,
-//         value: 33510.25,
-//     },
-//     {
-//         timestamp: 1625948100000,
-//         value: 33215.25,
-//     },
-// ];
 const data = [
     {"timestamp": 1708473600000, "value": 133.12},
     {"timestamp": 1708473660000, "value": 105.34},
@@ -47,6 +21,7 @@ const data2 = [
     {"timestamp": 1708473840000, "value": 55.69},
 ]
 
+// can be used to invert the chart with only one dataset
 // const data2 = data.map((point, idx, arr) => {
 //     return arr[arr.length - 1 - idx];
 // });
